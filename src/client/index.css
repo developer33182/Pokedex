@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+/* Mana Color Customization */
+.redMana {
+  @apply text-[#E63946]; /* Red Mana */
+}
+.blueMana {
+  @apply text-[#457B9D]; /* Blue Mana */
+}
+.greenMana {
+  @apply text-[#52B788]; /* Green Mana */
+}
+.whiteMana {
+  @apply text-[#F1FAEE]; /* White Mana */
+}
+.blackMana {
+  @apply text-[#3D405B]; /* Black Mana */
+}
+button:focus,
+a:focus {
+  outline: 2px solid #ff0000;
+  outline-offset: 2px;
+}
