@@ -18,6 +18,8 @@ export default function Pokedex() {
   const [loading, setLoading] = useState(true);
   const [typeLoading, setTypeLoading] = useState(false);
   const [error, setError] = useState("");
+  const [typeCache, setTypeCache] = useState({});
+
   const [darkMode, setDarkMode] = useState(false);
 
   // Apply theme
@@ -28,6 +30,35 @@ export default function Pokedex() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+  const run = async () => {
+    if (type === "all") {
+      setTypeFilteredNames(null);
+      setPage(1);
+      return;
+    }
+    if (typeCache[type]) {
+      setTypeFilteredNames(typeCache[type]);
+      setPage(1);
+      return;
+    }
+    try {
+      setTypeLoading(true);
+      const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+      const data = await res.json();
+      const names = new Set(data.pokemon.map(p => p.pokemon.name));
+      setTypeFilteredNames(names);
+      setTypeCache(prev => ({ ...prev, [type]: names }));
+      setPage(1);
+    } catch {
+      setError("Failed to filter by type.");
+    } finally {
+      setTypeLoading(false);
+    }
+  };
+  run();
+}, [type, typeCache]);
 
   // Load Pokémon list
   useEffect(() => {
@@ -87,7 +118,7 @@ export default function Pokedex() {
   }, [page, totalPages]);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300 font-display">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-red-500 transition-colors duration-300 font-display">
       
       {/* Header */}
       <header className="flex flex-col md:flex-row items-center justify-between p-4 bg-red-500 dark:bg-red-700 shadow-md gap-3">
@@ -108,7 +139,7 @@ export default function Pokedex() {
             placeholder="Search Pokémon…"
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            className="w-full md:max-w-md rounded-full border border-gray-300 bg-white dark:bg-gray-800 px-4 py-2.5 outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm"
+            className="w-full md:max-w-md rounded-full border border-gray-300 bg-white dark:text-red-500 dark:bg-gray-800 px-4 py-2.5 outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm"
           />
 
           <div className="flex items-center gap-2">
