@@ -139,7 +139,7 @@ export default function Pokedex() {
             placeholder="Search Pokémon…"
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            className="w-full md:max-w-md rounded-full border border-gray-300 bg-white dark:text-red-500 dark:bg-gray-800 px-4 py-2.5 outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm"
+            className="w-full md:max-w-md rounded-full border border-gray-300 bg-white dark:text-red-700  text-black dark:bg-gray-800 px-4 py-2.5 outline-none focus:ring-2 focus:ring-red-400 dark:focus:ring-yellow-500 hadow-sm"
           />
 
           <div className="flex items-center gap-2">
